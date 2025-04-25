@@ -1,0 +1,24 @@
+﻿version: '3.9'
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: arcano-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: ArcanoCipherDB
+  app:
+    image: node:18
+    container_name: arcano-app
+    working_dir: /usr/src/app
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+    command: sh -c "npm install && npm start"
+
+volumes:
+  mongodb_data:
